@@ -56,7 +56,9 @@ public class PersonDAOTest {
         assertNotNull(person);
         assertFalse(personList.isEmpty());
         assertEquals(1, personList.size());
+        assertEquals(person.getId(), personList.get(0).getId());
         assertEquals(person.getFullName(), personList.get(0).getFullName());
+        assertEquals(person.getYearOfBirth(), personList.get(0).getYearOfBirth());
     }
 
     @Test
