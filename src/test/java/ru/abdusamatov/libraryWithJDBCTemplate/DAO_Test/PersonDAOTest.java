@@ -1,4 +1,4 @@
-package ru.abdusamatov.libraryWithJDBCTemplate.DAO_test;
+package ru.abdusamatov.libraryWithJDBCTemplate.DAO_Test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -113,6 +113,7 @@ public class PersonDAOTest {
         assertTrue(foundPerson.isPresent());
         assertEquals(person.getFullName(), foundPerson.get().getFullName());
     }
+
     @Test
     public void testGetBooksByPersonID() {
         when(jdbcTemplate.query(
@@ -124,9 +125,9 @@ public class PersonDAOTest {
         List<Book> books = personDAO.getBooksByPersonId(person.getId());
         assertNotNull(books);
         assertFalse(books.isEmpty());
-        assertEquals(1,books.size());
-        assertEquals(book.getTitle(),books.get(0).getTitle());
-        assertEquals(book.getAuthor(),books.get(0).getAuthor());
-        assertEquals(book.getYear(),books.get(0).getYear());
+        assertEquals(1, books.size());
+        assertEquals(book.getTitle(), books.get(0).getTitle());
+        assertEquals(book.getAuthor(), books.get(0).getAuthor());
+        assertEquals(book.getYear(), books.get(0).getYear());
     }
 }

@@ -1,4 +1,4 @@
-package ru.abdusamatov.libraryWithJDBCTemplate.DAO_test;
+package ru.abdusamatov.libraryWithJDBCTemplate.DAO_Test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ru.abdusamatov.libraryWithJDBCTemplate.DAO.BookDAO;
-import ru.abdusamatov.libraryWithJDBCTemplate.DAO.PersonDAO;
 import ru.abdusamatov.libraryWithJDBCTemplate.models.Book;
 import ru.abdusamatov.libraryWithJDBCTemplate.models.Person;
 
@@ -45,12 +44,13 @@ public class BookDAOTest {
         book.setTitle("War and Peace");
         book.setYear(1869);
     }
+
     @Test
-    public void testBookList(){
-           when(jdbcTemplate.query(
-                   eq("SELECT * FROM Book"),
-                   any(BeanPropertyRowMapper.class)))
-                   .thenReturn(Arrays.asList(book));
+    public void testBookList() {
+        when(jdbcTemplate.query(
+                eq("SELECT * FROM Book"),
+                any(BeanPropertyRowMapper.class)))
+                .thenReturn(Arrays.asList(book));
 
         List<Book> bookList = bookDAO.bookList();
         assertNotNull(book);
@@ -63,7 +63,7 @@ public class BookDAOTest {
     }
 
     @Test
-    public void testShowBook(){
+    public void testShowBook() {
         when(jdbcTemplate.query(
                 eq("SELECT * FROM Book WHERE id=?"),
                 any(Object[].class),
@@ -76,9 +76,9 @@ public class BookDAOTest {
     }
 
     @Test
-    public void testSaveBook(){
+    public void testSaveBook() {
         bookDAO.saveBook(book);
-        Mockito.verify(jdbcTemplate,Mockito.times(1))
+        Mockito.verify(jdbcTemplate, Mockito.times(1))
                 .update(eq("INSERT INTO Book(title, author, year) VALUES(?, ?, ?)"),
                         eq(book.getTitle()),
                         eq(book.getAuthor()),
@@ -86,8 +86,8 @@ public class BookDAOTest {
     }
 
     @Test
-    public void testUpdateBook(){
-        bookDAO.updateBook(book.getId(),book);
+    public void testUpdateBook() {
+        bookDAO.updateBook(book.getId(), book);
         Mockito.verify(jdbcTemplate, Mockito.times(1))
                 .update(eq("UPDATE Book SET title=?, author=?, year=? WHERE id=?"),
                         eq(book.getTitle()),
@@ -97,7 +97,7 @@ public class BookDAOTest {
     }
 
     @Test
-    public void testDeleteBook(){
+    public void testDeleteBook() {
         bookDAO.deleteBook(book.getId());
         Mockito.verify(jdbcTemplate, Mockito.times(1))
                 .update(eq("DELETE FROM Book WHERE id=?"),
@@ -105,7 +105,7 @@ public class BookDAOTest {
     }
 
     @Test
-    public void testGetBookOwner(){
+    public void testGetBookOwner() {
         when(jdbcTemplate.query(
                 eq("SELECT Person.* FROM Book JOIN Person ON Book.person_id = Person.id WHERE Book.id = ?"),
                 any(Object[].class),
@@ -114,13 +114,13 @@ public class BookDAOTest {
 
         Optional<Person> owner = bookDAO.getBookOwner(book.getId());
         assertTrue(owner.isPresent());
-        assertEquals(person.getId(),owner.get().getId());
-        assertEquals(person.getFullName(),owner.get().getFullName());
-        assertEquals(person.getYearOfBirth(),owner.get().getYearOfBirth());
+        assertEquals(person.getId(), owner.get().getId());
+        assertEquals(person.getFullName(), owner.get().getFullName());
+        assertEquals(person.getYearOfBirth(), owner.get().getYearOfBirth());
     }
 
     @Test
-    public void testRelease(){
+    public void testRelease() {
         bookDAO.release(book.getId());
         Mockito.verify(jdbcTemplate, Mockito.times(1))
                 .update(eq("UPDATE Book SET person_id=NULL WHERE id=?"),
@@ -128,8 +128,8 @@ public class BookDAOTest {
     }
 
     @Test
-    public void testAssign(){
-        bookDAO.assign(book.getId(),person);
+    public void testAssign() {
+        bookDAO.assign(book.getId(), person);
         Mockito.verify(jdbcTemplate, Mockito.times(1))
                 .update(eq("UPDATE Book SET person_id=? WHERE id=?"),
                         eq(person.getId()),
