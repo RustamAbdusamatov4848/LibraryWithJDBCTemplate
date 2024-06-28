@@ -1,4 +1,4 @@
-package ru.abdusamatov.libraryWithJDBCTemplate.Controller_Test;
+package ru.abdusamatov.libraryWithJDBCTemplate.Controllers_Test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
